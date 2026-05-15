@@ -31,10 +31,15 @@ int main() {
 	solver.buildPathMask(maze, path, pathMask);
 
 	BeginBatchDraw();
-	while (true) {
+	bool running = true;
+	while (running) {
 		ExMessage msg;
 		while (peekmessage(&msg)) {
 			if (msg.message == WM_KEYDOWN) {
+				if (msg.vkcode == 'Q') {
+					running = false;
+					break;
+				}
 				if (resizing) {
 					if (msg.vkcode == VK_ESCAPE) {
 						resizing = false;
@@ -69,7 +74,7 @@ int main() {
 						resizeInput.push_back(c);
 					}
 					continue;
-				}
+				} // if resizing
 				if (msg.vkcode == 'T') editor.setMode(0);
 				if (msg.vkcode == '1') editor.setMode(1);
 				if (msg.vkcode == '2') editor.setMode(2);
@@ -117,6 +122,7 @@ int main() {
 				manual.handleKey(msg.vkcode, maze);
 			}
 		}
+		if (!running) break;
 
 		renderer.drawMaze(maze, pathMask);
 		int pathLen = path.empty() ? -1 : (int)path.size() - 1;
