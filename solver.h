@@ -5,6 +5,8 @@
 
 #include "maze.h"
 
+class Renderer;
+
 struct Cell {
 	int x;
 	int y;
@@ -13,7 +15,7 @@ struct Cell {
 class Solver {
 public:
 	Solver();
-	std::vector<Cell> solve(const Maze& maze) const;
+	std::vector<Cell> solveAnimated(const Maze& maze, const Renderer& renderer, int delayMs) const;
 	void buildPathMask(const Maze& maze, const std::vector<Cell>& path, std::vector<int>& mask) const;
 };
 

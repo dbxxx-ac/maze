@@ -3,20 +3,29 @@
 #include <algorithm>
 #include <queue>
 
+#include <graphics.h>
+#include <windows.h>
+
+#include "renderer.h"
+
 Solver::Solver() {}
 
-std::vector<Cell> Solver::solve(const Maze& maze) const {
+std::vector<Cell> Solver::solveAnimated(const Maze& maze, const Renderer& renderer, int delayMs) const {
+	std::vector<Cell> empty;
 	int w = maze.getWidth();
 	int h = maze.getHeight();
 	int sx = maze.getStartX();
 	int sy = maze.getStartY();
 	int ex = maze.getEndX();
 	int ey = maze.getEndY();
-	if (sx < 0 || sy < 0 || ex < 0 || ey < 0) return std::vector<Cell> ();
+	if (sx < 0 || sy < 0 || ex < 0 || ey < 0) return empty;
 	std::vector<int> prev(w * h, -1);
+	std::vector<int> visitedMask(w * h, 0);
+	std::vector<int> pathMask;
 	std::queue<Cell> q;
 	q.push({ sx, sy });
 	prev[sy * w + sx] = sy * w + sx;
+	visitedMask[sy * w + sx] = 1;
 	int dx[4] = { 1, -1, 0, 0 };
 	int dy[4] = { 0, 0, 1, -1 };
 	while (!q.empty()) {
@@ -31,11 +40,16 @@ std::vector<Cell> Solver::solve(const Maze& maze) const {
 			int ni = ny * w + nx;
 			if (prev[ni] != -1) continue;
 			prev[ni] = cur.y * w + cur.x;
+			visitedMask[ni] = 1;
 			q.push({ nx, ny });
+			renderer.drawMazeWithVisited(maze, pathMask, visitedMask);
+			renderer.drawPathLength(-1);
+			FlushBatchDraw();
+			Sleep(delayMs);
 		}
 	}
 	int endIdx = ey * w + ex;
-	if (prev[endIdx] == -1) return std::vector<Cell> ();
+	if (prev[endIdx] == -1) return empty;
 	std::vector<Cell> path;
 	int cur = endIdx;
 	while (true) {
