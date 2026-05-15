@@ -15,10 +15,6 @@ void Generator::generate(Maze& maze) const {
 	int w = maze.getWidth();
 	int h = maze.getHeight();
 	std::vector<int> data(w * h, 1);
-	if (w < 3 || h < 3) {
-		maze.loadFromVector(std::vector<int>(w * h, 0));
-		return;
-	}
 	auto idx = [w](int x, int y) { return y * w + x; };
 	int startX = (w % 2 == 0) ? 1 : 0;
 	int startY = (h % 2 == 0) ? 1 : 0;
