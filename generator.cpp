@@ -38,10 +38,11 @@ void Generator::generate(Maze& maze) const {
 			int dir = dirs[i];
 			int nx = cur.x + dx[dir] * 2;
 			int ny = cur.y + dy[dir] * 2;
-			if (nx < 0 || ny < 0 || nx >= w || ny >= h) continue;
+			if (!maze.isValid(nx, ny)) continue;
 			if (data[idx(nx, ny)] == 0) continue;
 			int midx = cur.x + dx[dir];
 			int midy = cur.y + dy[dir];
+			if (!maze.isValid(midx, midy)) continue;
 			data[idx(midx, midy)] = 0;
 			data[idx(nx, ny)] = 0;
 			stack.push_back({ nx, ny });

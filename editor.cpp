@@ -14,7 +14,7 @@ bool Editor::handleClick(Maze& maze, const Renderer& renderer, int px, int py) {
 	if (mx < 0 || my < 0) return false;
 	int cx = mx / cellSize;
 	int cy = my / cellSize;
-	if (cx >= maze.getWidth() || cy >= maze.getHeight()) return false;
+	if (!maze.isValid(cx, cy)) return false;
 	if (editMode == 0) maze.toggleCell(cx, cy);
 	if (editMode == 1) maze.setStart(cx, cy);
 	if (editMode == 2) maze.setEnd(cx, cy);

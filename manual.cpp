@@ -20,8 +20,7 @@ bool ManualController::toggle(const Maze& maze) {
 	playerY = sy;
 	steps = 0;
 	finished = false;
-	startTick = GetTickCount();
-	finishTick = startTick;
+	startTick = finishTick = GetTickCount();
 	active = true;
 	return true;
 }
@@ -47,7 +46,7 @@ bool ManualController::handleKey(int vkCode, const Maze& maze) {
 	if (dx == 0 && dy == 0) return false;
 	int nx = playerX + dx;
 	int ny = playerY + dy;
-	if (nx < 0 || ny < 0 || nx >= maze.getWidth() || ny >= maze.getHeight()) return false;
+	if (!maze.isValid(nx, ny)) return false;
 	if (maze.getCell(nx, ny) == 1) return false;
 	playerX = nx;
 	playerY = ny;

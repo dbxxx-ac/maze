@@ -11,9 +11,9 @@ class Maze {
 private:
 	int w, h, sx, sy, ex, ey;
 	std::vector <int> data;
-	bool isValid(int x, int y) const;
 public:
 	Maze(int n = DEFAULT_SIZE, int m = DEFAULT_SIZE);
+	bool isValid(int x, int y) const;
 	int getWidth() const;
 	int getHeight() const;
 	int getCell(int x, int y) const;

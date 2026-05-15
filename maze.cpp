@@ -3,12 +3,12 @@
 
 #include <algorithm>
 
-bool Maze::isValid(int x, int y) const {
-	return x >= 0 && x < w && y >= 0 && y < h;
-}
-
 Maze::Maze(int w, int h) : w(w), h(h), sx(-1), sy(-1), ex(-1), ey(-1) {
 	data.assign(w * h, 0);
+}
+
+bool Maze::isValid(int x, int y) const {
+	return x >= 0 && x < w && y >= 0 && y < h;
 }
 
 int Maze::getWidth() const { return w;}

@@ -11,8 +11,7 @@ void Renderer::getMazeOffset(const Maze& maze, int& ox, int& oy) const {
 	int mazeW = maze.getWidth() * cellSize;
 	int mazeH = maze.getHeight() * cellSize;
 	ox = (WINDOW_WIDTH - mazeW) / 2;
-	int availableH = WINDOW_HEIGHT - TOP_UI_HEIGHT;
-	oy = TOP_UI_HEIGHT + (availableH - mazeH) / 2;
+	oy = TOP_UI_HEIGHT + (WINDOW_HEIGHT - TOP_UI_HEIGHT - mazeH) / 2;
 }
 
 void Renderer::drawMaze(const Maze& maze, const std::vector<int>& pathMask) const {
@@ -83,7 +82,7 @@ void Renderer::drawPathLength(int length) const {
 	settextcolor(COLOR_TEXT);
 	char buf[64] = "";
 	if (length < 0) {
-		sprintf_s(buf, "Path length: N/A");
+		sprintf_s(buf, "Ready");
 	} else {
 		sprintf_s(buf, "Path length: %d", length);
 	}
@@ -107,7 +106,7 @@ void Renderer::drawManualStats(int steps, int elapsedMs, bool finished) const {
 	char buf[64] = "";
 	int seconds = elapsedMs / 1000;
 	if (finished) {
-		sprintf_s(buf, "Manual: %d steps, %ds (done)", steps, seconds);
+		sprintf_s(buf, "Manual: %d steps, %ds (done, congrats!)", steps, seconds);
 	} else {
 		sprintf_s(buf, "Manual: %d steps, %ds", steps, seconds);
 	}
